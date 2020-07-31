@@ -1,6 +1,15 @@
 import os, sys
 from flask import Flask, render_template, redirect, request, jsonify 
 import json
+from data import covid
+import requests
+import numpy as np
+
+
+
+    
+
+
 
 # ----------------------
 # $$$$$$$ FLASK $$$$$$$$
@@ -12,7 +21,35 @@ app = Flask(__name__)  # init
 def default():
     # Redirect
 
-    return 'Esta es la puta Api'
+    return '<h1> Api Grupo A <h1> <body text = "green" bgcolor="black" <p>Para obtener tu token usa enpoint: /get_token?id= _._._._ <p> <p1>Si tardamos mucho es que estamos lejos de vacaciones y es mejor que trabajes con otra data. <p1>  <p2> Adios y Feliz Verano <p2>'
+
+
+@app.route("/give_me_id", methods =['GET'])
+def give_id(): 
+    x= request.args['id']
+    return x
+
+@app.route("/get_token", methods = ['GET'])
+def get_token():
+    clave = None
+    token = {'token':'YA3168907Y3523932R70885197wy3148051D'}
+    if 'id' in request.args: 
+        clave = str(request.args['id'])
+    if clave == 'A137':
+        return token 
+    else:
+        return "try another time"
+
+@app.route("/get_data", methods = ['GET'])
+def get_json():
+    eltoken = None
+    eljson = covid('https://covid.ourworldindata.org/data/owid-covid-data.csv')
+    if 'id' in request.args:
+        eltoken = str(request.args['id'])
+    if eltoken == 'YA3168907Y3523932R70885197wy3148051D':
+        return eljson.to_json()
+
+   
 
 def main():
 
